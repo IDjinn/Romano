@@ -26,7 +26,8 @@ namespace Romano
                 var rightDecimal = CheckRightDecimalSpecialRules(options, left, right, number);
                 index++;
 
-                if (CalculateRightAndLeftOperationsAndSkip(left, currentValue, rightDecimal, ref total, ref index)) continue;
+                if (CalculateRightAndLeftOperationsAndSkip(left, currentValue, rightDecimal, ref total, ref index)) 
+                    continue;
 
                 total += currentValue;
             } while (index < roman.Length);
@@ -37,19 +38,23 @@ namespace Romano
         private static bool CalculateRightAndLeftOperationsAndSkip(char? left, ushort currentValue, int rightDecimal, ref ushort total,
             ref ushort index)
         {
+            var rightOperationsSuccess = TryCalculateRightValueAddition(currentValue, rightDecimal, ref total);
+            if(rightOperationsSuccess)
+                goto skiper;
+
             if (left is not null)
             {
                 var leftSubtractionSuccess = TryCalculateLeftValueAndSubtract(left.Value, currentValue, ref total);
-                var leftAndRightOperationsSuccess = leftSubtractionSuccess &&
-                                                    TryCalculateRightValueAddition(currentValue, rightDecimal, ref total);
-                if (leftAndRightOperationsSuccess)
-                {
-                    index++;
-                    return true;
-                }
+                if(leftSubtractionSuccess)
+                    goto skiper;
             }
 
             return false;
+            skiper:
+            { 
+                index++; 
+                return true;
+            }
         }
 
         private static int CheckRightDecimalSpecialRules(RomanizerOptions options, char? left, char? right, char number)
@@ -70,7 +75,7 @@ namespace Romano
             var leftDecimal = Util.ConvertSingleRomanToDecimal(left);
             var needSubtractLeftValue = currentValue > leftDecimal;
             if (needSubtractLeftValue)
-                total = (ushort) (currentValue - leftDecimal);
+                total += (ushort) (currentValue - leftDecimal);
             
             return needSubtractLeftValue;
         }

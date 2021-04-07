@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using Romano.Exceptions;
 using Xunit;
 
 namespace Romano.Tests
@@ -42,8 +43,8 @@ namespace Romano.Tests
         [InlineData("  ", typeof(ArgumentNullException))]
         [InlineData("ABC", typeof(ArgumentException))]
         [InlineData("123", typeof(ArgumentException))]
-        [InlineData("XXXX", typeof(ArgumentException))]
-        [InlineData("XXXXXX", typeof(ArgumentException), RomanizerOptions.ALLOW_FOUR_SEQUENTIAL_DIGITS)]
+        [InlineData("XXXX", typeof(ArithmeticAdditionException))]
+        [InlineData("XXXXXX", typeof(ArithmeticAdditionException), RomanizerOptions.ALLOW_FOUR_SEQUENTIAL_DIGITS)]
         public void InvalidRomanToHumanTest(string roman, Type @throw, RomanizerOptions options = RomanizerOptions.DEFAULT_STRICT)
         {
             Assert.Throws(@throw, () => Romano.Humanize(roman, options) as object);
@@ -63,12 +64,5 @@ namespace Romano.Tests
         {
             Assert.Throws(@throw, () => Romano.Romanize(arabic, options) as object);
         }*/
-        
-        [Theory]
-        [InlineData("XXXXX",RomanizerOptions.DEFAULT_STRICT, typeof(ArgumentException))]
-        public void ValidateHumanizeOptions(string roman, RomanizerOptions options, Type @throw)
-        {
-            Assert.Throws(@throw, () => Romano.Humanize(roman, options) as object);
-        }
     }
 }

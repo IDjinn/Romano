@@ -185,7 +185,7 @@ namespace Romano.Tests
         }
 
         [Theory]
-        [InlineData("XLXL", 80)]
+        [InlineData("MMCCXXIX", 2229)]
         public void HumanizeSpecial(string romanNumber, int expected)
         {
             HumanizeTester(romanNumber, expected);
