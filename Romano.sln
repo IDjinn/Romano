@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Romano", "Romano\Romano.csproj", "{30F2E05D-9832-4300-8273-471C22A26063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Romano.Tests", "Romano.Tests\Romano.Tests.csproj", "{3ED6F2CE-35EF-42AD-9975-6BC0696AEFC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3ED6F2CE-35EF-42AD-9975-6BC0696AEFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED6F2CE-35EF-42AD-9975-6BC0696AEFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED6F2CE-35EF-42AD-9975-6BC0696AEFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED6F2CE-35EF-42AD-9975-6BC0696AEFC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
