@@ -19,7 +19,7 @@ namespace Romano
             if (hasInvalidRomanDigit)
                 return false;
 
-            var hasRepeatedDigits = CheckRepeatedDigits(roman.Trim().ToUpper(), options) is null;
+            var hasRepeatedDigits = CheckRepeatedDigits(roman.Trim().ToUpper(), options) is not null;
             if (hasRepeatedDigits)
                 return false;
             
