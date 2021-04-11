@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace Romano.Tests
 {
@@ -176,7 +177,6 @@ namespace Romano.Tests
         [InlineData("M", 1000)]
         [InlineData("MM", 2000)]
         [InlineData("MMM", 3000)]
-        [InlineData("MMCDXXI", 2421)]
         [InlineData("MMCCXXIX", 2229)]
         [InlineData("MMMDCCCXXVI", 3826 )]
         public void HumanizerBigNumbers(string romanNumber, int expected)
@@ -185,7 +185,7 @@ namespace Romano.Tests
         }
 
         [Theory]
-        [InlineData("XIX", 19)]
+        [InlineData("XLXLX", 90)]
         public void HumanizeSpecial(string romanNumber, int expected)
         {
             HumanizeTester(romanNumber, expected);

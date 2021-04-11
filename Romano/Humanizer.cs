@@ -25,9 +25,15 @@ namespace Romano
                 var currentValue = Util.ConvertSingleRomanToDecimal(number);
                 var rightDecimal = CheckRightDecimalSpecialRules(options, left, right, number);
                 index++;
-
-                if (CalculateRightAndLeftOperationsAndSkip(left, currentValue, rightDecimal, ref total, ref index)) 
+                
+                var hasRightValue = rightDecimal > 0;
+                var needSubtractFromRightDecimal = hasRightValue && rightDecimal > currentValue;
+                if (needSubtractFromRightDecimal)
+                {
+                    total += (ushort) (rightDecimal - currentValue);
+                    index++;
                     continue;
+                }
 
                 total += currentValue;
             } while (index < roman.Length);
@@ -35,60 +41,23 @@ namespace Romano
             return total;
         }
 
-        private static bool CalculateRightAndLeftOperationsAndSkip(char? left, ushort currentValue, int rightDecimal, ref ushort total,
-            ref ushort index)
+
+        private static ushort CheckRightDecimalSpecialRules(RomanizerOptions options, char? left, char? right, char number)
         {
-            var rightOperationsSuccess = TryCalculateRightValueAddition(currentValue, rightDecimal, ref total);
-            if(rightOperationsSuccess)
-                goto skiper;
-
-            if (left is not null)
+            if(right is not null && right.HasValue)
             {
-                var leftSubtractionSuccess = TryCalculateLeftValueAndSubtract(left.Value, currentValue, ref total);
-                if(leftSubtractionSuccess)
-                    goto skiper;
-            }
+                var rightDecimal = Util.ConvertSingleRomanToDecimal(right.Value);
+                var needCheckSpecialRules = left.HasValue && right.HasValue;
+                if (needCheckSpecialRules)
+                {
+                    CheckSpecialRules(left!.Value, right!.Value, number, rightDecimal, options);
+                }
 
-            return false;
-            skiper:
-            { 
-                index++; 
-                return true;
+                return rightDecimal;
             }
-        }
-
-        private static int CheckRightDecimalSpecialRules(RomanizerOptions options, char? left, char? right, char number)
-        {
-            var rightDecimal = 0;
-            var needCheckSpecialRules = left.HasValue && right.HasValue;
-            if (needCheckSpecialRules)
-            {
-                rightDecimal = Util.ConvertSingleRomanToDecimal(right!.Value);
-                CheckSpecialRules(left!.Value, right!.Value, number, rightDecimal, options);
-            }
-
-            return rightDecimal;
+            return 0;
         }
         
-        private static bool TryCalculateLeftValueAndSubtract(char left, ushort currentValue,ref ushort total)
-        {
-            var leftDecimal = Util.ConvertSingleRomanToDecimal(left);
-            var needSubtractLeftValue = currentValue > leftDecimal;
-            if (needSubtractLeftValue)
-                total += (ushort) (currentValue - leftDecimal);
-            
-            return needSubtractLeftValue;
-        }
-
-
-        private static bool TryCalculateRightValueAddition(int currentValue, int rightDecimal, ref ushort total)
-        {
-            var needSubtractCurrentValue = currentValue < rightDecimal;
-            if (needSubtractCurrentValue)
-                total += (ushort) (rightDecimal - currentValue);
-
-            return needSubtractCurrentValue;
-        }
 
         private static void CheckSpecialRules(char left, char right, char current, int rightValue,
             RomanizerOptions options)

@@ -25,7 +25,7 @@ namespace Romano.Tests
             Parallel.For(1, Romano.MAX_VALUE + 1, arabic =>
             {
                 var roman = arabic.Romanizer();
-                Assert.Equal(roman.Humanize(), arabic);
+                Assert.Equal(arabic, roman.Humanize());
             });
         }
     }
